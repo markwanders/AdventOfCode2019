@@ -1,8 +1,5 @@
-import math
-
-
 def fuel_for_mass(m):
-    return math.floor(m / 3) - 2
+    return m // 3 - 2
 
 
 def iterative_fuel_for_mass(m):
