@@ -11,18 +11,18 @@ def run_program(mem):
             elif mem[index] == 2:
                 mem[mem[index + 3]] = mem[mem[index + 1]] * mem[mem[index + 2]]
             elif mem[index] == 99:
-                return
+                break
             else:
                 print("Encountered unknown opcode " + str(mem[index]) + ", quitting")
-                return
+                break
+    return mem[0]
 
 
 # part 1
 memory = intcodes[:]
 memory[1] = 12
 memory[2] = 2
-run_program(memory)
-print(memory[0])
+print(run_program(memory))
 
 # part 2
 for noun in range(0, 100):
@@ -30,7 +30,6 @@ for noun in range(0, 100):
         memory = intcodes[:]
         memory[1] = noun
         memory[2] = verb
-        run_program(memory)
-        if memory[0] == 19690720:
+        if run_program(memory) == 19690720:
             print("Found required value at 100 * noun + verb = " + str(100 * noun + verb))
             break
