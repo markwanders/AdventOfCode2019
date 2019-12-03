@@ -1,8 +1,6 @@
 with open("input.txt") as my_file:
-    wire1 = my_file.readline()
-    wire2 = my_file.readline()
-wire1 = [str(i) for i in wire1.split(",")]
-wire2 = [str(i) for i in wire2.split(",")]
+    wire1 = my_file.readline().split(",")
+    wire2 = my_file.readline().split(",")
 
 
 def calculate_lines(wire):
