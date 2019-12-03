@@ -1,6 +1,5 @@
-with open("input.txt") as my_file:
-    intcodes = my_file.readline()
-intcodes = [int(i) for i in intcodes.split(",")]
+with open("input.txt") as f:
+    intcodes = [int(i) for i in f.readline().split(",")]
 
 
 def run_program(mem):
@@ -25,8 +24,8 @@ memory[2] = 2
 print(run_program(memory))
 
 # part 2
-for noun in range(0, 100):
-    for verb in range(0, 100):
+for noun in range(100):
+    for verb in range(100):
         memory = intcodes[:]
         memory[1] = noun
         memory[2] = verb

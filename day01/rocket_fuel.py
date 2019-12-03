@@ -10,9 +10,8 @@ def iterative_fuel_for_mass(m):
     return module_fuel
 
 
-with open("input.txt") as my_file:
-    modules = my_file.readlines()
-modules = [int(i) for i in modules]
+with open("input.txt") as f:
+    modules = [int(i) for i in f.readlines()]
 
 # part 1
 fuel = sum([fuel_for_mass(mass) for mass in modules])
