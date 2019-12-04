@@ -1,10 +1,10 @@
-with open("input.txt") as my_file:
-    wire1 = my_file.readline().split(",")
-    wire2 = my_file.readline().split(",")
+with open("input.txt") as f:
+    wire1 = f.readline().split(",")
+    wire2 = f.readline().split(",")
 
 
 def calculate_lines(wire):
-    locations = [(0, 0, 0)]
+    locations = [(0, 0)]
     for direction in wire:
         steps = int(direction[1:])
         current_location = locations[-1]
@@ -26,13 +26,13 @@ def calculate_lines(wire):
 locations1 = calculate_lines(wire1)
 locations2 = calculate_lines(wire2)
 
-intersects = set(locations1[1:]).intersection(locations2[1:])
+intersects = set(locations1[1:]) & set(locations2[1:])
 
-manhattan_distances = [(abs(intersection[0]) + abs(intersection[1])) for intersection in intersects]
+manhattan_distances = [abs(intersection[0]) + abs(intersection[1]) for intersection in intersects]
 
 # part one
 print(min(manhattan_distances))
 
 # part two
-step_distance = [(locations1.index(intersection) + locations2.index(intersection)) for intersection in intersects]
+step_distance = [locations1.index(intersection) + locations2.index(intersection) for intersection in intersects]
 print(min(step_distance))
