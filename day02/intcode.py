@@ -3,17 +3,16 @@ with open("input.txt") as f:
 
 
 def run_program(mem):
-    for index in range(len(mem)):
-        if index % 4 == 0:
-            if mem[index] == 1:
-                mem[mem[index + 3]] = mem[mem[index + 1]] + mem[mem[index + 2]]
-            elif mem[index] == 2:
-                mem[mem[index + 3]] = mem[mem[index + 1]] * mem[mem[index + 2]]
-            elif mem[index] == 99:
-                break
-            else:
-                print("Encountered unknown opcode " + str(mem[index]) + ", quitting")
-                break
+    for index in range(0, len(mem), 4):
+        if mem[index] == 1:
+            mem[mem[index + 3]] = mem[mem[index + 1]] + mem[mem[index + 2]]
+        elif mem[index] == 2:
+            mem[mem[index + 3]] = mem[mem[index + 1]] * mem[mem[index + 2]]
+        elif mem[index] == 99:
+            break
+        else:
+            print("Encountered unknown opcode " + str(mem[index]) + ", quitting")
+            break
     return mem[0]
 
 
