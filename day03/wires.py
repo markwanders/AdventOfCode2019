@@ -7,19 +7,15 @@ def calculate_lines(wire):
     locations = [(0, 0)]
     for direction in wire:
         steps = int(direction[1:])
-        current_location = locations[-1]
+        location = locations[-1]
         if direction.startswith("L"):
-            for x in range(current_location[0] - 1, current_location[0] - steps - 1, -1):
-                locations.append((x, current_location[1]))
+            locations.extend((x, location[1]) for x in range(location[0] - 1, location[0] - steps - 1, -1))
         elif direction.startswith("R"):
-            for x in range(current_location[0] + 1, current_location[0] + steps + 1):
-                locations.append((x, current_location[1]))
+            locations.extend((x, location[1]) for x in range(location[0] + 1, location[0] + steps + 1))
         elif direction.startswith("U"):
-            for y in range(current_location[1] + 1, current_location[1] + steps + 1):
-                locations.append((current_location[0], y))
+            locations.extend((location[0], y) for y in range(location[1] + 1, location[1] + steps + 1))
         elif direction.startswith("D"):
-            for y in range(current_location[1] - 1, current_location[1] - steps - 1, -1):
-                locations.append((current_location[0], y))
+            locations.extend((location[0], y) for y in range(location[1] - 1, location[1] - steps - 1, -1))
     return locations
 
 
