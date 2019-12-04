@@ -1,16 +1,12 @@
-counter = 0
+counter_part_one = 0
+counter_part_two = 0
 for p in range(130254, 678275):
-    ints = [int(i) for i in str(p)]
-    d = False
-    lt = False
-    for i in range(1, 6):
-        if ints[i] >= ints[i - 1]:
-            lt = True
-        else:
-            lt = False
-            break
-        if ints[i] == ints[i - 1] and str(p).count(str(ints[i])) == 2:
-            d = True
+    d = any(c1 == c2 for c1, c2 in zip(str(p), str(p)[1:]))
+    lt = not any(c1 > c2 for c1, c2 in zip(str(p), str(p)[1:]))
+    dd = any(str(p).count(c) == 2 for c in str(p))
     if d and lt:
-        counter = counter + 1
-print(counter)
+        counter_part_one += 1
+        if dd:
+            counter_part_two += 1
+print(counter_part_one)
+print(counter_part_two)
