@@ -26,30 +26,15 @@ def run_program(inp):
             print("Output %s" % str(mem[first]))
             index += 2
         elif opcode.endswith("5"):
-            if mem[first] != 0:
-                index = mem[second]
-            else:
-                index += 3
+            index = mem[second] if mem[first] != 0 else index + 3
         elif opcode.endswith("6"):
-            if mem[first] == 0:
-                index = mem[second]
-            else:
-                index += 3
+            index = mem[second] if mem[first] == 0 else index + 3
         elif opcode.endswith("7"):
-            if mem[first] < mem[second]:
-                mem[third] = 1
-            else:
-                mem[third] = 0
+            mem[third] = 1 if mem[first] < mem[second] else 0
             index += 4
         elif opcode.endswith("8"):
-            if mem[first] == mem[second]:
-                mem[third] = 1
-            else:
-                mem[third] = 0
+            mem[third] = 1 if mem[first] == mem[second] else 0
             index += 4
-        else:
-            print("Encountered unknown opcode %o, quitting" % mem[index])
-            break
 
 
 # part one
