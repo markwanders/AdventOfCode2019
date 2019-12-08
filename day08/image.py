@@ -1,15 +1,13 @@
 with open("input.txt") as f:
     image = [char for char in str(f.readline())]
 
-x = 25
-y = 6
+x, y = 25, 6
 
 layers = [image[i:i + (x * y)] for i in range(0, len(image), (x * y))]
 
 # part one
-zeroes = [layer.count("0") for layer in layers]
-min_zeroes = zeroes.index(min(zeroes))
-part_one = layers[min_zeroes].count("1") * layers[min_zeroes].count("2")
+min_zeroes = min(layers, key=lambda layer: layer.count('0'))
+part_one = min_zeroes.count('1') * min_zeroes.count('2')
 print(part_one)
 
 # part two
