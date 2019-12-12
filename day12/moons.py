@@ -20,7 +20,4 @@ for step in range(1000):
     for moon in positions.keys():
         positions[moon] = [sum(x) for x in zip(positions[moon], velocities[moon])]
 
-energy = 0
-for moon in positions.keys():
-    energy += sum(map(abs, positions[moon])) * sum(map(abs, velocities[moon]))
-print(energy)
+print(sum([sum(map(abs, positions[moon])) * sum(map(abs, velocities[moon])) for moon in positions.keys()]))
