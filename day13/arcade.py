@@ -4,7 +4,8 @@ with open("input.txt") as f:
     ops = [int(i) for i in f.readline().split(",")]
 
 
-def display(outputs):
+def display(outputs, score):
+    lines = ""
     for y in range(min(map(lambda k: k[1], outputs.keys())), max(map(lambda k: k[1], outputs.keys()))):
         line = ""
         for x in range(min(map(lambda k: k[0], outputs.keys())), max(map(lambda k: k[0], outputs.keys())) + 1):
@@ -15,10 +16,12 @@ def display(outputs):
             elif outputs[(x, y)] == 2:
                 line += "#"
             elif outputs[(x, y)] == 3:
-                line += "_"
+                line += "―"
             elif outputs[(x, y)] == 4:
-                line += "0"
-        print(line)
+                line += "\033[31;1m●\033[0m"
+        lines = lines + line + "\n"
+    print(lines)
+    print("Score: %d" % score)
 
 
 class Computer:
@@ -87,25 +90,26 @@ print(sum(v == 2 for v in outputs.values()))
 outputs = {}
 arcade = Computer(ops)
 arcade.mem[0] = 2
-j = 0
-while not outputs or any(v == 2 for v in outputs.values()):
-    proceed = True
-    while proceed:
-        x, y, tile_id = arcade.run_program(j), arcade.run_program(j), arcade.run_program(j)
-        if x is None and y is None and tile_id is None:
-            proceed = False
-        elif x == -1 and y == 0:
-            display(outputs)
-            print("Score: %d" % tile_id)
-        else:
-            outputs[(x, y)] = tile_id
-            if any(v == 4 for v in outputs.values()) and any(v == 3 for v in outputs.values()):
-                ball = [k for k, v in outputs.items() if v == 4][0]
-                paddle = [k for k, v in outputs.items() if v == 3][0]
+j, score = 0, 0
+proceed = True
+while proceed:
+    x, y, tile_id = arcade.run_program(j), arcade.run_program(j), arcade.run_program(j)
+    if x is None and y is None and tile_id is None:
+        proceed = False
+    elif x == -1 and y == 0:
+        score = tile_id
+    else:
+        outputs[(x, y)] = tile_id
+        if any(v == 4 for v in outputs.values()) and any(v == 3 for v in outputs.values()):
+            ball = [k for k, v in outputs.items() if v == 4][0]
+            paddle = [k for k, v in outputs.items() if v == 3][0]
 
-                if paddle[0] < ball[0]:
-                    j = 1
-                elif paddle[0] > ball[0]:
-                    j = -1
-                else:
-                    j = 0
+            if paddle[0] < ball[0]:
+                j = 1
+            elif paddle[0] > ball[0]:
+                j = -1
+            else:
+                j = 0
+    if score > 0:
+        display(outputs, score)
+print(score)
