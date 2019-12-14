@@ -9,7 +9,7 @@ layers = [image[i:i + (x * y)] for i in range(0, len(image), (x * y))]
 # part one
 min_zeroes = min(layers, key=lambda l: l.count('0'))
 part_one = min_zeroes.count('1') * min_zeroes.count('2')
-print part_one
+print(part_one)
 
 # part two
 for _y in range(y):
@@ -24,4 +24,4 @@ for _y in range(y):
             if pixel == "1":
                 line += "██"
                 break
-    print line
+    print(line)
