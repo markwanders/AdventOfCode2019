@@ -10,7 +10,7 @@ reaction_map = {r[-1]: r[:-1] for r in reactions}
 def ore_for_fuel(amount):
     required_chemical_amounts = {'FUEL': amount}
 
-    while [k for (k, v) in required_chemical_amounts.items() if k != "ORE" and v > 0]:
+    while any(k != "ORE" and v > 0 for (k, v) in required_chemical_amounts.items()):
         for chemical in [k for (k, v) in required_chemical_amounts.items() if k != "ORE" and v > 0]:
             output = [k for k in reaction_map.keys() if k[0] == chemical][0]
             quantity = output[1]
