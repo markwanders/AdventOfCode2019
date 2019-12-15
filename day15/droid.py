@@ -62,14 +62,14 @@ def calculate_new_position(direction_to_move, current_position):
         return current_position[0] + 1, current_position[1]
 
 
-def backtrack(direction):
-    if direction == 1:
+def backtrack(from_direction):
+    if from_direction == 1:
         return 2
-    elif direction == 2:
+    elif from_direction == 2:
         return 1
-    elif direction == 3:
+    elif from_direction == 3:
         return 4
-    elif direction == 4:
+    elif from_direction == 4:
         return 3
 
 
@@ -81,9 +81,9 @@ def unseen_neighbor(p):
 droid = Computer(ops)
 position = (0, 0)
 distances = {position: 0}
-found = False
 movement_history = []
-while not found:
+proceed = True
+while proceed:
     for direction in [1, 2, 3, 4]:
         new_position = calculate_new_position(direction, position)
         if new_position not in distances.keys():
@@ -99,11 +99,22 @@ while not found:
                 position = new_position
                 break
             elif status == 2:
-                print(distances[position] + 1)
-                found = True
+                # part one
+                print("Found oxygen at distance %d" % (distances[position] + 1))
+                distances[new_position] = 0
+                for key, value in distances.items():
+                    if value > 0:
+                        distances.pop(key)
+                movement_history = []
+                position = new_position
                 break
         elif direction == 4 and position != new_position:
             while not unseen_neighbor(position):
+                if len(movement_history) == 0:
+                    proceed = False
+                    # part two
+                    print("Maximum distance from oxygen point: %d" % max(distances.values()))
+                    break
                 backtrack_move = backtrack(movement_history.pop())
                 droid.run_program(backtrack_move)
                 position = calculate_new_position(backtrack_move, position)
