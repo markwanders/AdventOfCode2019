@@ -1,3 +1,5 @@
+# coding=utf-8
+
 with open("input.txt") as f:
     ops = [int(i) for i in f.readline().split(",")]
 
@@ -82,7 +84,6 @@ def paint(start):
     while proceed:
         current_color = squares[position] if position in squares.keys() else 0
         color, direction_instruction = robot.run_program(current_color), robot.run_program(current_color)
-        # print(color, direction_instruction)
         if color is None and direction_instruction is None:
             proceed = False
         else:
@@ -104,5 +105,5 @@ for _y in range(max(painted.keys(), key=lambda k: k[1])[1], min(painted.keys(), 
         if pixel == 0:
             line += "  "
         if pixel == 1:
-            line += "##"
+            line += "██"
     print(line)
