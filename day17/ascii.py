@@ -2,6 +2,24 @@ with open("input.txt") as f:
     ops = [int(i) for i in f.readline().split(",")]
 
 
+def print_grid(grid):
+    line = ""
+    for _y in range(0, min(grid.keys())[1], -1):
+        for _x in range(max(grid.keys())[0]):
+            if (_x, _y) in grid.keys():
+                c = grid[(_x, _y)]
+            else:
+                c = 0
+            if c == 35:
+                line += "#"
+            elif c == 46:
+                line += "."
+            else:
+                line += " "
+        line += "\n"
+    print(line)
+
+
 class Computer:
     def __init__(self, code):
         self.mem = (code[:] + [0] * 10000)[:10000]
@@ -51,18 +69,14 @@ class Computer:
                 self.index += 2
 
 
-def adjacent(xx, yy, points):
-    a = [0]
-    if all(p in [(xx + 1, yy), (xx - 1, yy), (xx, yy + 1), (xx, yy - 1)] for p in points.keys()):
-        a = [points[(xx + 1, yy)], points[(xx - 1, yy)], points[(xx, yy + 1)], points[(xx, yy - 1)]]
-    return a
+def adjacent(xx, yy):
+    return [(xx + 1, yy), (xx - 1, yy), (xx, yy + 1), (xx, yy - 1)]
 
 
 robot = Computer(ops)
-proceed = True
 outputs = {}
 x = y = 0
-while proceed:
+while True:
     output = robot.run_program()
     if output:
         if output == 10:
@@ -73,22 +87,11 @@ while proceed:
             x += 1
     else:
         break
+
+print_grid(outputs)
 scaffolds = [k for (k, v) in outputs.items() if v == 35]
-print(scaffolds)
-intersections = [s for s in scaffolds if all(elem == 35 for elem in adjacent(s[0], s[1], outputs))]
-print(len(intersections))
-line = ""
-for _y in range(0, min(outputs.keys())[1], -1):
-    for _x in range(max(outputs.keys())[0]):
-        if (_x, _y) in outputs.keys():
-            c = outputs[(_x, _y)]
-        else:
-            c = 0
-        if c == 35:
-            line += "#"
-        elif c == 46:
-            line += "."
-        else:
-            line += " "
-    line += "\n"
-# print(line)
+intersections = [s for s in scaffolds if all(elem in scaffolds for elem in adjacent(s[0], s[1]))]
+print(sum(p[0] * abs(p[1]) for p in intersections))
+
+
+
