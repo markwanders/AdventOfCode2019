@@ -72,5 +72,6 @@ while True:
                     if node not in visited[r]:
                         visited[r].add(node)
                         q.put((tuple(robots), node[1], steps + 1))
+                    robots[r] = robot
 
 print(steps)
