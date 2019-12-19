@@ -1,3 +1,5 @@
+from itertools import count
+
 with open("input.txt") as f:
     ops = [int(i) for i in f.readline().split(",")]
 
@@ -67,3 +69,22 @@ for y in range(grid_max):
         drone = Computer(ops)
         grid[(x, y)] = drone.run_program([x, y])
 print(sum(grid.values()))
+
+
+def find_square(size):
+    size -= 1
+    x_start = 0
+    for y in count(size):
+        for x in count(x_start):
+            drone = Computer(ops)
+            if drone.run_program([x, y]) == 0:
+                continue
+            x_start = x
+            drone = Computer(ops)
+            if drone.run_program([x + size, y - size]) == 0:
+                break
+            return x, y - size
+
+
+result = find_square(100)
+print(result[0] * 10000 + result[1])
