@@ -45,7 +45,7 @@ while True:
     for neighbor in neighbors:
         tile = torus.get(neighbor, '#')
         if tile == '.':
-            if neighbor in warp_to_warp.keys() and warp_to_warp[neighbor] not in neighbors and warp_to_warp[neighbor] not in visited:
+            if neighbor in warp_to_warp.keys() and warp_to_warp[neighbor] not in visited:
                 q.put((warp_to_warp[neighbor], steps + 2))
             if neighbor not in visited:
                 visited.append(neighbor)
