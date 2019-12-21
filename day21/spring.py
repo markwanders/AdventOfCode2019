@@ -39,6 +39,8 @@ class Computer:
                 self.index += 2
                 if self.mem[first] == 10:
                     print(self.output)
+                    if '#'in self.output:
+                        print("   ABCDEFGHI")
                     self.output = ""
                 else:
                     if self.mem[first] in range(0x110000):
@@ -60,7 +62,21 @@ class Computer:
                 self.index += 2
 
 
+# part one
+# jump if A, B, or C is a hole and D is ground i.e. J = (!A | !B | !C) & D
 script = list(map(ord, "NOT A J\nNOT B T\nOR T J\nNOT C T\nOR T J\nAND D J\nWALK\n"))
+droid = Computer(ops)
+droid.inputs = script
+droid.run_program()
+
+# part two
+# our solution for part one fails in the case of !C & D:
+#  @
+# #### # #   #####
+#   ABCDEFGHI
+# If H is not jumpable, we will fall into the hole at E. We need H to be jumpable too in that case, so:
+# J = (!A | !B) & D | (!C & D & H) = (!A | !B | (!C & H)) & D
+script = list(map(ord, "NOT C J\nAND H J\nNOT A T\nOR T J\nNOT B T\nOR T J\nAND D J\nRUN\n"))
 droid = Computer(ops)
 droid.inputs = script
 droid.run_program()
