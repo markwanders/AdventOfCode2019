@@ -1,4 +1,3 @@
-from collections import deque
 import re
 
 with open("input.txt") as f:
@@ -11,9 +10,7 @@ def deal(cards):
 
 
 def cut(cards, n):
-    cards = deque(cards)
-    cards.rotate(-n)
-    return list(cards)
+    return cards[n:] + cards[:n]
 
 
 def increment(cards, n):
@@ -24,7 +21,7 @@ def increment(cards, n):
     return new_cards
 
 
-deck = range(10007)
+deck = list(range(10007))
 for instruction in instructions:
     n = re.search(r'-?\d+', instruction)
     if n:
