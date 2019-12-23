@@ -46,6 +46,8 @@ class Computer:
                 self.index += 2
                 self.output += [self.mem[first]]
                 if len(self.output) == 3:
+                    if self.output[0] == 255:
+                        packets[self.output[0]] = []
                     packets[self.output[0]] += self.output[1:3]
                     self.output = self.output[3:]
                     break
@@ -64,8 +66,20 @@ class Computer:
                 self.index += 2
 
 
+sent_from_nat = []
 computers = [Computer(ops, a) for a in range(50)]
-while not packets[255]:
+proceed = True
+while proceed:
     for computer in computers:
         computer.run_program()
-print(packets[255])
+    if all(len(v) == 0 for k, v in packets.items() if k < 50) and len(packets[255]) > 0:
+        packets[0] = packets[255]
+        if packets[255][1] in sent_from_nat:
+            print("Found first duplicate y value from nat: %d" % packets[255][1])
+            proceed = False
+            break
+        else:
+            if not sent_from_nat:
+                print("First y value to nat: %d" % packets[255][1])
+            sent_from_nat += [packets[255][1]]
+            packets[255] = []
