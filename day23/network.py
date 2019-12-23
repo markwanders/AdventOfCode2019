@@ -67,12 +67,12 @@ class Computer:
 
 
 sent_from_nat = []
-computers = [Computer(ops, a) for a in range(50)]
+computers = [Computer(ops, address) for address in range(50)]
 proceed = True
 while proceed:
     for computer in computers:
         computer.run_program()
-    if all(len(v) == 0 for k, v in packets.items() if k < 50) and len(packets[255]) > 0:
+    if all(not queue for address, queue in packets.items() if address < 50) and packets[255]:
         packets[0] = packets[255]
         if packets[255][1] in sent_from_nat:
             print("Found first duplicate y value from nat: %d" % packets[255][1])
@@ -81,5 +81,4 @@ while proceed:
         else:
             if not sent_from_nat:
                 print("First y value to nat: %d" % packets[255][1])
-            sent_from_nat += [packets[255][1]]
-            packets[255] = []
+            sent_from_nat.append(packets[255][1])
